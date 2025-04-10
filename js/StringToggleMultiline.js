@@ -1,5 +1,4 @@
 import { app } from "../../scripts/app.js"
-import { ComfyWidgets } from "../../scripts/widgets.js"
 import { DividerWidget } from "./common.js"
 import { OVERRIDDEN_SERVER_NODES } from './common.js'
 
@@ -24,17 +23,17 @@ const upgradeNodeType = (nodeType) => class extends nodeType {
     const id = Symbol()
     const unit = { id, enabled: true, text }
     const [width, height] = this.size
-    Object.assign(this.addCustomWidget(new DividerWidget({ marginTop: 2, marginBottom: 2, thickness: 2 })), { id })
-    Object.assign(this.addWidget('toggle', `append_${this.nameUniqueCounter}`, append, () => unit.enabled = !unit.enabled), { id })
-    Object.assign(ComfyWidgets.STRING(this, `text_${this.nameUniqueCounter++}`, [ 'STRING', { default: unit.text, multiline: true } ], app).widget, { id, isDOMWidget: true })
+    Object.assign(this.addCustomWidget(new DividerWidget({ marginTop: 2, marginBottom: 2, thickness: 2 })), { unitId: id })
+    Object.assign(this.addWidget('toggle', `append_${this.nameUniqueCounter}`, append, () => unit.enabled = !unit.enabled), { unitId: id })
+    Object.assign(app.widgets.STRING(this, `text_${this.nameUniqueCounter++}`, [ 'STRING', { default: unit.text, isOptional: false, multiline: true } ], app).widget, { unitId: id, isDOMWidget: true })
     this.units.push(unit)
     this.setSize([width, height])
     return id
   }
   removeTextUnit(id) {
-    this.units = this.units.filter(each => each.id !== id)
+    this.units = this.units.filter(each => each.unitId !== id)
     this.widgets = this.widgets.filter(each => {
-      if (each.id === id) {
+      if (each.unitId === id) {
         if (each.isDOMWidget) each.element.remove()
       } else return true
     })
