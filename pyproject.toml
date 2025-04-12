@@ -1,0 +1,14 @@
+[project]
+name = "string-chain"
+description = "String Chain: Reconnect your prompts"
+version = "1.0.0"
+license = {file = "LICENSE"}
+
+[project.urls]
+Repository = "https://github.com/uihp/ComfyUI-String-Chain"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ComfyUI-String-Chain"
+Icon = ""
